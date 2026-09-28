@@ -34,7 +34,7 @@ pstack の作者 Lauren Tan(poteto)は、使い方を 3 つの資料で説明し
 4. Claude Code を起動し、pstack を入れます。
 
     ```
-    /plugin marketplace add souljazzfunk/lab
+    /plugin marketplace add tochida-sc/pstack-cc
     /plugin install pstack@lab
     ```
 

@@ -9,7 +9,7 @@
 Claude Code で:
 
 ```
-/plugin marketplace add souljazzfunk/lab
+/plugin marketplace add tochida-sc/pstack-cc
 /plugin install pstack@lab
 ```
 

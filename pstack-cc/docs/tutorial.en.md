@@ -34,7 +34,7 @@ Replace `<feature>`, `<subsystem>`, and other placeholders in the prompts with n
 4. Start Claude Code and install pstack.
 
     ```
-    /plugin marketplace add souljazzfunk/lab
+    /plugin marketplace add tochida-sc/pstack-cc
     /plugin install pstack@lab
     ```
 
