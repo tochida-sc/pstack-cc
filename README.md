@@ -1,22 +1,28 @@
 # pstack-cc
 
-[pstack](https://github.com/cursor/plugins/tree/main/pstack)(Lauren Tan / poteto 作、Cursor 用プラグイン、MIT)を Claude Code で使えるようにしたプラグインの marketplace。
+English | [日本語](README.ja.md)
 
-[souljazzfunk/lab](https://github.com/souljazzfunk/lab/tree/main/pstack-cc) の `pstack-cc/` を履歴ごと切り出したもの。
+A Claude Code plugin marketplace for [pstack](https://github.com/cursor/plugins/tree/main/pstack), the Cursor plugin by Lauren Tan (poteto), converted to run in Claude Code. MIT licensed.
 
-## 使う
+Extracted with history from `pstack-cc/` in [souljazzfunk/lab](https://github.com/souljazzfunk/lab/tree/main/pstack-cc).
 
-Claude Code で:
+## Install
+
+In Claude Code:
 
 ```
 /plugin marketplace add tochida-sc/pstack-cc
 /plugin install pstack@lab
 ```
 
-スキルは `/pstack:<名前>` で呼ぶ(例: `/pstack:poteto-mode`、`/pstack:how`)。最初に `/pstack:setup-pstack` を一度実行すると、役割ごとのモデルを選べる。
+Skills are invoked as `/pstack:<name>` (for example `/pstack:poteto-mode`, `/pstack:how`). Run `/pstack:setup-pstack` once to choose which model each role uses; the defaults work without it.
 
-使い方・仕組み・上流の取り込み方は [`pstack-cc/README.md`](pstack-cc/README.md)、チュートリアルは [`pstack-cc/docs/tutorial.ja.md`](pstack-cc/docs/tutorial.ja.md)。
+## Docs
 
-## ライセンス
+- Tutorial: [`pstack-cc/docs/tutorial.en.md`](pstack-cc/docs/tutorial.en.md)
+- Skill map: [`pstack-cc/docs/skill-map.en.md`](pstack-cc/docs/skill-map.en.md)
+- How the conversion works and how to pull upstream updates: [`pstack-cc/README.md`](pstack-cc/README.md) (Japanese)
 
-MIT。pstack 本体は `vendor/pstack/LICENSE`(Lauren Tan)、変換の仕組みは `LICENSE`(souljazzfunk)。
+## License
+
+MIT. pstack itself: `vendor/pstack/LICENSE` (Lauren Tan). Conversion tooling: `LICENSE` (souljazzfunk).
