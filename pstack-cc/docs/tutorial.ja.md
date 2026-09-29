@@ -38,7 +38,7 @@ pstack の作者 Lauren Tan(poteto)は、使い方を 3 つの資料で説明し
     /plugin install pstack@lab
     ```
 
-5. Claude Code を再起動します。`/poteto` と打って、補完に `/pstack:poteto-mode` が出れば準備は終わりです。
+5. インストール時に指示が出たら `/reload-plugins` を実行します(再起動は不要です)。`/poteto` と打って、補完に `/pstack:poteto-mode` が出れば準備は終わりです。
 
 モデルの割り当ては既定のままで動きます。変えたくなったときだけ `/setup-pstack` を実行します。
 

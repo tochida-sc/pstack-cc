@@ -38,7 +38,7 @@ Replace `<feature>`, `<subsystem>`, and other placeholders in the prompts with n
     /plugin install pstack@lab
     ```
 
-5. Restart Claude Code. Type `/poteto`. If the completion list shows `/pstack:poteto-mode`, you are ready.
+5. If the install message asks for it, run `/reload-plugins` (no restart needed). Type `/poteto`. If the completion list shows `/pstack:poteto-mode`, you are ready.
 
 pstack runs on its default models. Run `/setup-pstack` only when you want to change them.
 

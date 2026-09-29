@@ -15,6 +15,10 @@ In Claude Code:
 /plugin install pstack@lab
 ```
 
+No restart is needed. If the install message says so, run `/reload-plugins` to load pstack into the current session.
+
+This works in Claude Code on your own machine (CLI, desktop app, IDE). Cloud sessions (Claude Code on the web) have no `/plugin` command and do not load plugins you installed locally or ones a repository's `.claude/settings.json` enables, so `/pstack:*` is not available there unless an organization admin distributes the plugin through managed settings.
+
 Skills are invoked as `/pstack:<name>` (for example `/pstack:poteto-mode`, `/pstack:how`). Run `/pstack:setup-pstack` once to choose which model each role uses; the defaults work without it.
 
 ## Docs

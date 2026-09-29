@@ -13,6 +13,10 @@ Claude Code で:
 /plugin install pstack@lab
 ```
 
+再起動は不要。インストール時に指示が出たら `/reload-plugins` を実行すると、今のセッションに読み込まれる。
+
+使えるのは手元の Claude Code(CLI・デスクトップアプリ・IDE)。クラウドのセッション(Claude Code on the web)には `/plugin` コマンドがなく、手元で入れたプラグインもリポジトリの `.claude/settings.json` で有効にしたプラグインも読み込まれない。そこで `/pstack:*` を使うには、組織の管理者が managed settings で配布する必要がある。
+
 スキルは `/pstack:<名前>` で呼ぶ(例: `/pstack:poteto-mode`、`/pstack:how`、`/pstack:architect`)。最初に `/pstack:setup-pstack` を一度実行すると、役割ごとのモデルを選べる(しなくても既定値で動く)。
 
 pstack の作者による記事 2 本と講演の内容を、自分のリポジトリで手を動かしながらたどるチュートリアルが [`docs/tutorial.ja.md`](docs/tutorial.ja.md)(英語版 [`docs/tutorial.en.md`](docs/tutorial.en.md))にある。
