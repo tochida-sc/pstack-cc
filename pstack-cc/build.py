@@ -128,9 +128,8 @@ RULES = [
     Rule("(Shell, Grep, MCP", "(Bash, Grep, MCP", min_hits=3),
     Rule("Comment Sicko", "comment-sicko", min_hits=2),
     # モデル名(対応表は claude-code.md)
-    Rule(r"claude-opus-5-5-(?:max|medium)", "opus", min_hits=10, regex=True),
-    Rule("gpt-5.6-sol-max", "fable", min_hits=5),
-    Rule("grok-4.7-xhigh-fast", "sonnet", min_hits=10),
+    Rule(r"claude-opus-5-5-(?:xhigh|max|medium)", "opus", min_hits=10, regex=True),
+    Rule(r"grok-4.7-(?:xhigh|medium)-fast", "sonnet", min_hits=10, regex=True),
 ]
 
 # 変換後に残っていたら build を失敗させる文字列

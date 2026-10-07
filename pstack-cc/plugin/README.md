@@ -2,6 +2,6 @@
 
 **Generated. Do not edit.** Built by `pstack-cc/build.py` from `vendor/pstack`.
 
-- Upstream: https://github.com/cursor/plugins.git (`pstack/` at `fadd23794c0075468eb8964b0fd93e06e09486ad`, 2026-09-24T14:37:59-07:00)
+- Upstream: https://github.com/cursor/plugins.git (`pstack/` at `d0ef80d86795816da932a153458c5dbe192d294e`, 2026-10-06T21:54:20-07:00)
 - What changed for Claude Code: see `claude-code.md`
 - License: MIT, see `LICENSE` (upstream author: Lauren Tan)

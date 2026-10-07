@@ -22,12 +22,11 @@ The build replaced Cursor model slugs with Claude Code aliases:
 
 | Cursor default | Here |
 |---|---|
-| `claude-opus-5-5-max` / `-medium` | `opus` |
-| `gpt-5.6-sol-max` | `fable` |
-| `grok-4.7-xhigh-fast` | `sonnet` |
+| `claude-opus-5-5-xhigh` / `-max` / `-medium` | `opus` |
+| `grok-4.7-xhigh-fast` / `-medium-fast` | `sonnet` |
 
 - Pass the alias as the Agent tool's `model`.
-- If the tool rejects an alias (`fable` is not on every plan), omit `model` for that subagent so it runs on the parent model, and say so once.
+- If the tool rejects an alias, omit `model` for that subagent so it runs on the parent model, and say so once.
 - A skill that talks about model families or slug prefixes means these aliases. Each alias counts as its own family.
 - Panels (arena, architect, interrogate) were designed for different vendors. Here they are different Claude models, so candidates will be less diverse. The rest of each workflow is unchanged.
 
