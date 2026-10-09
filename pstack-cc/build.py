@@ -88,6 +88,9 @@ RULES = [
         "check it out in its worktree first.",
         only="skills/swarm/SKILL.md",
     ),
+    # スラッシュコマンドの補完は description の単語の前方一致でも候補を出す。/pm で poteto-mode が出るように pm を足す
+    Rule("Use for poteto, /poteto-mode, or", "Use for poteto, /poteto-mode (pm), or",
+         only="skills/poteto-mode/SKILL.md"),
     # 上流は pstack リポジトリの中から実行する前提のパス。プラグインとして入れた場合はスキルの場所から辿る
     Rule(
         "`node pstack/skills/poteto-mode/scripts/check-plan.mjs <plan.md>`",
