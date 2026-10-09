@@ -10,6 +10,7 @@
 """
 
 import filecmp
+import hashlib
 import json
 import re
 import shutil
@@ -232,12 +233,21 @@ def upstream_info() -> dict[str, str]:
     return info
 
 
+def conversion_hash() -> str:
+    """変換側の入力 (build.py、overrides/、claude-code.md) のハッシュ。上流が同じでも変換を直したら版の文字列が変わり、claude plugin update が拾う"""
+    h = hashlib.sha256()
+    files = [HERE / "build.py", HERE / "claude-code.md", *sorted(p for p in (HERE / "overrides").rglob("*") if p.is_file())]
+    for f in files:
+        h.update(f.relative_to(HERE).as_posix().encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:7]
+
+
 def write_manifest(out: Path) -> None:
     up = json.loads((VENDOR / ".cursor-plugin" / "plugin.json").read_text())
     info = upstream_info()
     manifest = {
         "name": up["name"],
-        "version": f"{up['version']}-cc.{info['commit'][:7]}",
+        "version": f"{up['version']}-cc.{info['commit'][:7]}.{conversion_hash()}",
         "description": up["description"] + " (Claude Code conversion of the Cursor plugin.)",
         "author": up["author"],
         "homepage": up["homepage"],
