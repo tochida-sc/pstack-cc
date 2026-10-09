@@ -1,0 +1,52 @@
+name: sync-upstream
+
+on:
+  schedule:
+    - cron: "0 18 * * *" # 毎日 03:00 JST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-upstream
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Sync and build
+        id: sync
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          set +e
+          pstack-cc/auto-sync.sh
+          code=$?
+          set -e
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          [ "$code" = 0 ] || [ "$code" = 10 ] || [ "$code" = 20 ]
+      - name: Push
+        if: steps.sync.outputs.code == '0'
+        run: git push origin HEAD:main
+      - name: Open an issue
+        if: steps.sync.outputs.code == '20'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Upstream sync needs a manual fix"
+          n=$(gh issue list --state open --search "in:title \"$title\"" --json number -q '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body-file auto-sync-report.md
+          else
+            gh issue create --title "$title" --body-file auto-sync-report.md
+          fi

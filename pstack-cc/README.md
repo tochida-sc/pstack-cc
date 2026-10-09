@@ -63,6 +63,15 @@ git add vendor/pstack pstack-cc && git commit
 
 build が失敗したら、表示されたルール(`build.py` の `RULES`)を新しい文章に合わせて直す。`overrides/` にあるファイルの上流版が変わったときは、変更点を手で反映する。
 
+### 自動の取り込み
+
+`.github/workflows/sync-upstream.yml` が毎日 03:00 JST に `pstack-cc/auto-sync.sh` を実行する。上流に変更があり、build と `claude plugin validate --strict` が通れば、main にコミットして push する。次の場合は push せず、Issue「Upstream sync needs a manual fix」にログを載せる。
+
+- build が失敗した (ルールが当たらなくなった、など)
+- `overrides/` で差し替えているファイルの上流版が変わった
+
+Issue が立ったら、上の手順で手で取り込む。手元では、マーケットプレイスの `autoUpdate` を有効にしておくと、Claude Code の起動時に新しい版が入る。
+
 ## 変換しきれないもの
 
 Cursor にしかない機能(クラウドエージェント、automations、Custom Modes、`cursor-team-kit` のスキル)に頼る部分は、文章を残したまま `claude-code.md` で代わりのやり方を説明している。特に:
