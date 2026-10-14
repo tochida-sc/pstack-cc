@@ -58,10 +58,3 @@ jobs:
         run: |
           echo "::error::Upstream sync stopped. See the issue \"Upstream sync needs a manual fix\"."
           exit 1
-      # 失敗した run はすべて Slack に知らせる。Webhook の URL は secret SLACK_WEBHOOK_URL に置く
-      - name: Notify Slack
-        if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: pstack-cc/notify-slack.sh
