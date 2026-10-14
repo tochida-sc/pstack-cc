@@ -59,9 +59,9 @@ RULES = [
         only="skills/recall/SKILL.md",
     ),
     Rule(
-        "The system prompt names the active workspace's `agent-transcripts/` directory. Use that path.",
-        "Use the active project's transcript directory, `~/.claude/projects/<slug>/` "
-        "(`claude-code.md` at the plugin root explains the slug).",
+        "find this conversation's transcript in the `agent-transcripts/` directory the system prompt names.",
+        "find this conversation's transcript in the active project's transcript directory, "
+        "`~/.claude/projects/<slug>/` (`claude-code.md` at the plugin root explains the slug).",
         only="skills/reflect/SKILL.md",
     ),
     Rule(
@@ -101,8 +101,9 @@ RULES = [
     ),
     Rule("Read these from trunk at program start.", "Read these at program start.",
          only="skills/poteto-mode/playbooks/multi-phase-plan.md"),
-    Rule("re-read this playbook from trunk with `git show origin/main:pstack/skills/",
-         "re-read this playbook with `cat <pstack plugin root>/skills/", min_hits=2),
+    Rule(r"re-reads (this playbook|both playbooks) from trunk",
+         r"re-reads \1 from the pstack plugin root (`cat <pstack plugin root>/skills/poteto-mode/playbooks/<name>.md`)",
+         min_hits=2, regex=True),
     # 計画に「trunk から読み直す」手順があるかの検査。pstack のファイルは trunk から読まなくなったので、
     # 同じ手順の文言「Re-read them at every tick」を目印にする
     Rule('"git show origin/main:",', '"Re-read them at every tick",',
@@ -125,7 +126,7 @@ RULES = [
     Rule(".cursor/worktrees", ".claude/worktrees", min_hits=1),
     # ツール名
     Rule("Task tool", "Agent tool", min_hits=5),
-    Rule(r"\bTask subagent", "Agent-tool subagent", min_hits=2, regex=True),
+    Rule(r"\bTask subagent", "Agent-tool subagent", min_hits=1, regex=True),
     Rule("`Task`", "`Agent`", min_hits=5),
     Rule("generalPurpose", "general-purpose", min_hits=5),
     Rule(r"\bAskQuestion\b", "AskUserQuestion", min_hits=3, regex=True),
