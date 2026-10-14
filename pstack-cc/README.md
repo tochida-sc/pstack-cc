@@ -70,6 +70,8 @@ build が失敗したら、表示されたルール(`build.py` の `RULES`)を�
 - build が失敗した (ルールが当たらなくなった、など)
 - `overrides/` で差し替えているファイルの上流版が変わった
 
+このときも run は失敗にする。失敗した run は、どの理由でも `pstack-cc/notify-slack.sh` が Slack に知らせる。Slack の Incoming Webhook の URL を、リポジトリの secret `SLACK_WEBHOOK_URL` に置く。secret が無いと、知らせられなかったことを run のエラーに書く。
+
 Issue が立ったら、上の手順で手で取り込む。手元では、マーケットプレイスの `autoUpdate` を有効にしておくと、Claude Code の起動時に新しい版が入る。
 
 ## 変換しきれないもの
