@@ -37,42 +37,11 @@ jobs:
           set -e
           echo "code=$code" >> "$GITHUB_OUTPUT"
           [ "$code" = 0 ] || [ "$code" = 10 ] || [ "$code" = 20 ]
-      # 止まったら Claude Code に build.py の RULES と overrides/ を直させる。build と validate が通れば push する
-      # 認証は secrets の ANTHROPIC_API_KEY か CLAUDE_CODE_OAUTH_TOKEN (claude setup-token で作る) のどちらか
-      - name: Auto-fix with Claude Code
-        id: fix
-        if: steps.sync.outputs.code == '20'
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-        run: |
-          if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
-            echo "::warning::No ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN secret. Skipping the auto-fix."
-            echo "fixed=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          [ -n "$ANTHROPIC_API_KEY" ] || unset ANTHROPIC_API_KEY
-          [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] || unset CLAUDE_CODE_OAUTH_TOKEN
-          if pstack-cc/auto-fix.sh; then
-            echo "fixed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "fixed=false" >> "$GITHUB_OUTPUT"
-            { echo; cat auto-fix-log.md; } >> auto-sync-report.md
-          fi
-      - name: Upload the auto-fix log
-        if: steps.sync.outputs.code == '20'
-        uses: actions/upload-artifact@v4
-        with:
-          name: auto-fix-log
-          path: |
-            auto-sync-report.md
-            auto-fix-log.md
-          if-no-files-found: ignore
       - name: Push
-        if: steps.sync.outputs.code == '0' || steps.fix.outputs.fixed == 'true'
+        if: steps.sync.outputs.code == '0'
         run: git push origin HEAD:main
       - name: Open an issue
-        if: steps.sync.outputs.code == '20' && steps.fix.outputs.fixed != 'true'
+        if: steps.sync.outputs.code == '20'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -85,7 +54,7 @@ jobs:
           fi
       # 取り込みを止めた日も run を失敗にする。成功のままだと、止まったことが Issue にしか残らない (2026-10-13 から気付かなかった)
       - name: Fail when the sync stopped
-        if: steps.sync.outputs.code == '20' && steps.fix.outputs.fixed != 'true'
+        if: steps.sync.outputs.code == '20'
         run: |
-          echo "::error::Upstream sync stopped and the auto-fix did not work. See the issue \"Upstream sync needs a manual fix\"."
+          echo "::error::Upstream sync stopped. See the issue \"Upstream sync needs a manual fix\"."
           exit 1
