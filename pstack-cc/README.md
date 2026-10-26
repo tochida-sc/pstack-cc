@@ -70,7 +70,11 @@ build が失敗したら、表示されたルール(`build.py` の `RULES`)を�
 - build が失敗した (ルールが当たらなくなった、など)
 - `overrides/` で差し替えているファイルの上流版が変わった
 
-このときも run は失敗にする。Slack への知らせは無い。GitHub の失敗した run の通知と Issue で気付く。
+このときは、まず `pstack-cc/auto-fix.sh` が Claude Code (`claude -p`) に `build.py` の `RULES` と `overrides/` を直させる。Claude が変えてよいのはこの 2 か所だけで、`vendor/pstack` やほかのファイルを変えた場合、ルールを `min_hits=0` で無効にした場合は取り消す。直したあとに build と `claude plugin validate --strict` が通れば、修正の要約をコミットメッセージに書いて main に push する。
+
+自動の修正には、リポジトリの Actions secrets に `ANTHROPIC_API_KEY` か `CLAUDE_CODE_OAUTH_TOKEN` (`claude setup-token` で作る) のどちらかが必要。secret が無いときは修正を飛ばす。ログは run の artifact `auto-fix-log` に残る。
+
+自動の修正でも直らなかったときは、run を失敗にし、Issue にログを載せる。Slack への知らせは無い。GitHub の失敗した run の通知と Issue で気付く。
 
 Issue が立ったら、上の手順で手で取り込む。手元では、マーケットプレイスの `autoUpdate` を有効にしておくと、Claude Code の起動時に新しい版が入る。
 
