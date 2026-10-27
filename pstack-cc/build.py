@@ -101,9 +101,9 @@ RULES = [
     ),
     Rule("Read these from trunk at program start.", "Read these at program start.",
          only="skills/poteto-mode/playbooks/multi-phase-plan.md"),
-    Rule(r"re-reads (this playbook|both playbooks) from trunk",
-         r"re-reads \1 from the pstack plugin root (`cat <pstack plugin root>/skills/poteto-mode/playbooks/<name>.md`)",
-         min_hits=2, regex=True),
+    Rule(r"re-reads (this playbook) from trunk",
+         r"re-reads this playbook from the pstack plugin root (`cat <pstack plugin root>/skills/poteto-mode/playbooks/<name>.md`)",
+         min_hits=1, regex=True),
     # 計画に「trunk から読み直す」手順があるかの検査。pstack のファイルは trunk から読まなくなったので、
     # 同じ手順の文言「Re-read them at every tick」を目印にする
     Rule('"git show origin/main:",', '"Re-read them at every tick",',

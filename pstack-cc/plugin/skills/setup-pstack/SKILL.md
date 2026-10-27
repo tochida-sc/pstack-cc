@@ -23,7 +23,7 @@ If `~/.claude/pstack-models.md` exists, read it and treat its role values as the
 
 ### 3. Show the roles and confirm
 
-Show every role with its model. Ask with AskUserQuestion whether to accept as-is, switch everything to `inherit-parent` (cheapest to reason about: every subagent uses the parent model), or change specific roles. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, so the list length sets the count. Prefer distinct aliases within a panel so the candidates differ.
+Show every role with its model. Ask with AskUserQuestion whether to accept as-is, switch everything to `inherit-parent` (cheapest to reason about: every subagent uses the parent model), or change specific roles. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, so the list length sets the count. Prefer distinct aliases within a panel so the candidates differ. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's, in list order, so order it by preference. An `inherit-parent` value never judges.
 
 ### 4. Write the file
 
