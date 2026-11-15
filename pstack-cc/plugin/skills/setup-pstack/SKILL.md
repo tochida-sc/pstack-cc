@@ -7,7 +7,7 @@ description: Configure which models pstack uses per role. Writes ~/.claude/pstac
 
 # Setup pstack (Claude Code)
 
-Write `~/.claude/pstack-models.md`, the file the other pstack skills read for their per-role model.
+Write `~/.claude/pstack-models.md` with the `# defaults: 2` line, the file the other pstack skills read for their per-role model.
 
 This replaces upstream's Cursor version, which writes an always-applied `.mdc` rule and tunes reasoning effort per slug. Claude Code has neither, so this version only picks a model alias per role.
 
@@ -19,7 +19,7 @@ List the values the Agent tool's `model` parameter accepts in this session (typi
 
 ### 2. Load current state
 
-If `~/.claude/pstack-models.md` exists, read it and treat its role values as the current choices. Otherwise start from the defaults in step 4. Drop any line whose role is not in step 4 and tell the user.
+If `~/.claude/pstack-models.md` exists, read it and treat its role values as the current choices. Otherwise start from the defaults in step 4. Drop any line whose role is not in step 4, such as `how explorer` or `why investigators`, which are from retired roles, and tell the user. Every other value is the user's choice and stays.
 
 ### 3. Show the roles and confirm
 
@@ -32,16 +32,13 @@ Overwrite the whole file so re-runs stay idempotent. Shape:
 ```
 # pstack model configuration (Claude Code). One line per role. Delete a line to fall back to the skill default.
 # `inherit-parent`: omit the Agent tool's `model`, so the role runs on the parent model.
+# defaults: 2
 feature, refactoring: sonnet
 bug-fix: sonnet
 perf-issue: sonnet
 hillclimb: sonnet
 judgment and prose: opus
 hardest tasks: opus
-how explorer: sonnet
-how explainer: opus
-why investigators: sonnet
-why synthesizer: opus
 reflect tooling: sonnet
 reflect judgment, divergent, synthesizer: opus
 arena runners: opus, sonnet

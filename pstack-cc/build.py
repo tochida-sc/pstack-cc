@@ -111,10 +111,10 @@ RULES = [
     # --- 全体の置き換え ---
     # pstack リポジトリ内のパス(claude-code.md の "Paths to pstack's own files" を参照)
     Rule("`git show origin/main:pstack/skills/", "`cat <pstack plugin root>/skills/", min_hits=4),
-    Rule("`pstack/skills/", "`<pstack plugin root>/skills/", min_hits=5),
+    Rule("`pstack/skills/", "`<pstack plugin root>/skills/", min_hits=3),
     # モデル設定ファイル
     Rule("~/.cursor/rules/pstack-models.mdc", "~/.claude/pstack-models.md", min_hits=4),
-    Rule("the `pstack-models.mdc` rule", "`~/.claude/pstack-models.md`", min_hits=3),
+    Rule("the `pstack-models.mdc` rule", "`~/.claude/pstack-models.md`", min_hits=2),
     # 会話ログの場所
     Rule("`agent-transcripts/` directory", "transcript directory", min_hits=4),
     Rule(r"the system prompt names (?:the|this) path", TRANSCRIPTS_NOTE, min_hits=3, regex=True),
@@ -133,12 +133,15 @@ RULES = [
     Rule("(Shell, Grep, MCP", "(Bash, Grep, MCP", min_hits=3),
     Rule("Comment Sicko", "comment-sicko", min_hits=2),
     # モデル名(対応表は claude-code.md)
-    Rule(r"claude-opus-5-5-(?:xhigh|max|medium)", "opus", min_hits=10, regex=True),
-    Rule(r"grok-4.7-(?:xhigh|medium)-fast", "sonnet", min_hits=10, regex=True),
+    # 速いスロット(-high-fast / -xhigh-fast / -low-fast)は上流で Grok の後継。従来どおり sonnet に対応させる
+    Rule(r"claude-opus-5-5-(?:xhigh|high|low)-fast", "sonnet", min_hits=3, regex=True),
+    Rule(r"claude-opus-5-5-(?:xhigh|max|medium)", "opus", min_hits=8, regex=True),
+    Rule(r"claude-fable-5-2-(?:max|high)", "opus", min_hits=3, regex=True),
+    Rule(r"gemini-4-carbon-high", "sonnet", min_hits=3, regex=True),
 ]
 
 # 変換後に残っていたら build を失敗させる文字列
-FORBIDDEN = ["~/.cursor/", "pstack-models.mdc", "generalPurpose", "grok-4.7", "claude-opus-5-5", "origin/main:pstack/", "`pstack/skills/"]
+FORBIDDEN = ["~/.cursor/", "pstack-models.mdc", "generalPurpose", "grok-4.7", "claude-opus-5-5", "claude-fable-5-2", "gemini-4-carbon", "origin/main:pstack/", "`pstack/skills/"]
 
 SKILL_NOTICE = (
     "> **Claude Code:** converted from the Cursor version of pstack. Before running this skill, read "
