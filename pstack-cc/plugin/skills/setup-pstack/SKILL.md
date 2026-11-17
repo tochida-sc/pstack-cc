@@ -7,7 +7,7 @@ description: Configure which models pstack uses per role. Writes ~/.claude/pstac
 
 # Setup pstack (Claude Code)
 
-Write `~/.claude/pstack-models.md` with the `# defaults: 2` line, the file the other pstack skills read for their per-role model.
+Write `~/.claude/pstack-models.md` with the `# defaults: 3` line, the file the other pstack skills read for their per-role model.
 
 This replaces upstream's Cursor version, which writes an always-applied `.mdc` rule and tunes reasoning effort per slug. Claude Code has neither, so this version only picks a model alias per role.
 
@@ -19,11 +19,11 @@ List the values the Agent tool's `model` parameter accepts in this session (typi
 
 ### 2. Load current state
 
-If `~/.claude/pstack-models.md` exists, read it and treat its role values as the current choices. Otherwise start from the defaults in step 4. Drop any line whose role is not in step 4, such as `how explorer` or `why investigators`, which are from retired roles, and tell the user. Every other value is the user's choice and stays.
+If `~/.claude/pstack-models.md` exists, read it and treat its role values as the current choices. Otherwise start from the defaults in step 4. Drop any line whose role is not in step 4, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, which are from retired roles, and tell the user. Every other value is the user's choice and stays.
 
 ### 3. Show the roles and confirm
 
-Show every role with its model. Ask with AskUserQuestion whether to accept as-is, switch everything to `inherit-parent` (cheapest to reason about: every subagent uses the parent model), or change specific roles. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, so the list length sets the count. Prefer distinct aliases within a panel so the candidates differ. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's, in list order, so order it by preference. An `inherit-parent` value never judges.
+Show every role with its model. Ask with AskUserQuestion whether to accept as-is, switch everything to `inherit-parent` (cheapest to reason about: every subagent uses the parent model), or change specific roles. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, so the list length sets the count. Prefer distinct aliases within a panel so the candidates differ. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a family other than the parent's, in list order, so order it by preference. An `inherit-parent` value never judges.
 
 ### 4. Write the file
 
@@ -32,19 +32,15 @@ Overwrite the whole file so re-runs stay idempotent. Shape:
 ```
 # pstack model configuration (Claude Code). One line per role. Delete a line to fall back to the skill default.
 # `inherit-parent`: omit the Agent tool's `model`, so the role runs on the parent model.
-# defaults: 2
+# defaults: 3
 feature, refactoring: sonnet
 bug-fix: sonnet
 perf-issue: sonnet
 hillclimb: sonnet
 judgment and prose: opus
-hardest tasks: opus
-reflect tooling: sonnet
-reflect judgment, divergent, synthesizer: opus
 arena runners: opus, sonnet
 arena cross-judge pool: opus, sonnet
 swarm workers: sonnet
-architect runners: opus, sonnet
 interrogate reviewers: opus, sonnet
 ```
 

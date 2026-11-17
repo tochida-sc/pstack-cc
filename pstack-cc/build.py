@@ -59,12 +59,6 @@ RULES = [
         only="skills/recall/SKILL.md",
     ),
     Rule(
-        "find this conversation's transcript in the `agent-transcripts/` directory the system prompt names.",
-        "find this conversation's transcript in the active project's transcript directory, "
-        "`~/.claude/projects/<slug>/` (`claude-code.md` at the plugin root explains the slug).",
-        only="skills/reflect/SKILL.md",
-    ),
-    Rule(
         "# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.\n"
         "slug=$(printf '%s' \"$main_wt\" | sed 's#^/##; s#/#-#g')\n"
         'transcripts="$HOME/.cursor/projects/$slug/agent-transcripts"',
@@ -92,29 +86,12 @@ RULES = [
     # スラッシュコマンドの補完は description の単語の前方一致でも候補を出す。/pm で poteto-mode が出るように pm を足す
     Rule("Use for poteto, /poteto-mode, or", "Use for poteto, /poteto-mode (pm), or",
          only="skills/poteto-mode/SKILL.md"),
-    # 上流は pstack リポジトリの中から実行する前提のパス。プラグインとして入れた場合はスキルの場所から辿る
-    Rule(
-        "`node pstack/skills/poteto-mode/scripts/check-plan.mjs <plan.md>`",
-        "`node <poteto-mode base directory>/scripts/check-plan.mjs <plan.md>` "
-        "(the base directory Claude Code reported when it loaded the `poteto-mode` skill)",
-        only="skills/poteto-mode/playbooks/multi-phase-plan.md",
-    ),
-    Rule("Read these from trunk at program start.", "Read these at program start.",
-         only="skills/poteto-mode/playbooks/multi-phase-plan.md"),
     Rule(r"re-reads (this playbook) from trunk",
          r"re-reads this playbook from the pstack plugin root (`cat <pstack plugin root>/skills/poteto-mode/playbooks/<name>.md`)",
          min_hits=1, regex=True),
-    # 計画に「trunk から読み直す」手順があるかの検査。pstack のファイルは trunk から読まなくなったので、
-    # 同じ手順の文言「Re-read them at every tick」を目印にする
-    Rule('"git show origin/main:",', '"Re-read them at every tick",',
-         only="skills/poteto-mode/scripts/check-plan.mjs"),
     # --- 全体の置き換え ---
-    # pstack リポジトリ内のパス(claude-code.md の "Paths to pstack's own files" を参照)
-    Rule("`git show origin/main:pstack/skills/", "`cat <pstack plugin root>/skills/", min_hits=4),
-    Rule("`pstack/skills/", "`<pstack plugin root>/skills/", min_hits=3),
     # モデル設定ファイル
     Rule("~/.cursor/rules/pstack-models.mdc", "~/.claude/pstack-models.md", min_hits=4),
-    Rule("the `pstack-models.mdc` rule", "`~/.claude/pstack-models.md`", min_hits=2),
     # 会話ログの場所
     Rule("`agent-transcripts/` directory", "transcript directory", min_hits=4),
     Rule(r"the system prompt names (?:the|this) path", TRANSCRIPTS_NOTE, min_hits=3, regex=True),
@@ -125,18 +102,18 @@ RULES = [
     Rule(".cursor/skills/", ".claude/skills/", min_hits=5),
     Rule(".cursor/worktrees", ".claude/worktrees", min_hits=1),
     # ツール名
-    Rule("Task tool", "Agent tool", min_hits=5),
+    Rule("Task tool", "Agent tool", min_hits=4),
     Rule(r"\bTask subagent", "Agent-tool subagent", min_hits=1, regex=True),
-    Rule("`Task`", "`Agent`", min_hits=5),
+    Rule("`Task`", "`Agent`", min_hits=2),
     Rule("generalPurpose", "general-purpose", min_hits=5),
     Rule(r"\bAskQuestion\b", "AskUserQuestion", min_hits=3, regex=True),
-    Rule("(Shell, Grep, MCP", "(Bash, Grep, MCP", min_hits=3),
     Rule("Comment Sicko", "comment-sicko", min_hits=2),
     # モデル名(対応表は claude-code.md)
     # 速いスロット(-high-fast / -xhigh-fast / -low-fast)は上流で Grok の後継。従来どおり sonnet に対応させる
-    Rule(r"claude-opus-5-5-(?:xhigh|high|low)-fast", "sonnet", min_hits=3, regex=True),
-    Rule(r"claude-opus-5-5-(?:xhigh|max|medium)", "opus", min_hits=8, regex=True),
-    Rule(r"claude-fable-5-2-(?:max|high)", "opus", min_hits=3, regex=True),
+    # xhigh-fast は上流でコード系ロールの既定になった(上流の claude-code.md でも opus xhigh)。opus に対応させる
+    Rule(r"claude-opus-5-5-(?:high|medium|low)-fast", "sonnet", min_hits=3, regex=True),
+    Rule(r"claude-opus-5-5-(?:xhigh|max|medium)(?:-fast)?", "opus", min_hits=7, regex=True),
+    Rule(r"claude-fable-5-2-(?:max|high)", "opus", min_hits=2, regex=True),
     Rule(r"gemini-4-carbon-high", "sonnet", min_hits=3, regex=True),
 ]
 
