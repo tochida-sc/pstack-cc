@@ -114,11 +114,11 @@ RULES = [
     Rule(r"claude-opus-5-5-(?:high|medium|low)-fast", "sonnet", min_hits=3, regex=True),
     Rule(r"claude-opus-5-5-(?:xhigh|max|medium)(?:-fast)?", "opus", min_hits=7, regex=True),
     Rule(r"claude-fable-5-2-(?:max|high)", "opus", min_hits=2, regex=True),
-    Rule(r"gemini-4-carbon-high", "sonnet", min_hits=3, regex=True),
+    Rule(r"gemini-4-neon-high", "sonnet", min_hits=3, regex=True),
 ]
 
 # 変換後に残っていたら build を失敗させる文字列
-FORBIDDEN = ["~/.cursor/", "pstack-models.mdc", "generalPurpose", "grok-4.7", "claude-opus-5-5", "claude-fable-5-2", "gemini-4-carbon", "origin/main:pstack/", "`pstack/skills/"]
+FORBIDDEN = ["~/.cursor/", "pstack-models.mdc", "generalPurpose", "grok-4.7", "claude-opus-5-5", "claude-fable-5-2", "gemini-4-neon", "origin/main:pstack/", "`pstack/skills/"]
 
 SKILL_NOTICE = (
     "> **Claude Code:** converted from the Cursor version of pstack. Before running this skill, read "
