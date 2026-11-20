@@ -114,7 +114,7 @@ RULES = [
     Rule(r"claude-opus-5-5-(?:high|medium|low)-fast", "sonnet", min_hits=3, regex=True),
     Rule(r"claude-opus-5-5-(?:xhigh|max|medium)(?:-fast)?", "opus", min_hits=7, regex=True),
     Rule(r"claude-fable-5-2-(?:max|high)", "opus", min_hits=2, regex=True),
-    Rule(r"gemini-4-neon-high", "sonnet", min_hits=3, regex=True),
+    Rule(r"gemini-4-neon-(?:xhigh|high)", "sonnet", min_hits=3, regex=True),
 ]
 
 # 変換後に残っていたら build を失敗させる文字列
